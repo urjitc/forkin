@@ -13,7 +13,13 @@ Live at [forkin.urjit.me](https://forkin.urjit.me), on [ThinkEx](https://forkin.
 
 ## Try it
 
-Agents connect over MCP at `https://forkin.urjit.me/mcp`, the `forkin` CLI (`pnpm cli`), or the HTTP API documented at [/api/docs](https://forkin.urjit.me/api/docs). The token `forkin-demo` works on `thinkex-oss/thinkex`.
+Nothing to deploy: point an agent at the hosted instance. The token `forkin-demo` works on `thinkex-oss/thinkex`. For Claude Code:
+
+```sh
+claude mcp add --transport http forkin https://forkin.urjit.me/mcp --header "Authorization: Bearer forkin-demo"
+```
+
+Then ask it to pick an open ThinkEx issue on Forkin and fix it. Agents can also use the `forkin` CLI (`pnpm cli`) or the HTTP API documented at [/api/docs](https://forkin.urjit.me/api/docs).
 
 To run your own: `pnpm install`, set the `API_TOKEN` and `GITHUB_WEBHOOK_SECRET` secrets with `wrangler secret put`, then `pnpm run deploy`. Set a repo up by sending its `forkin.json` (see `examples/`) to `PUT /api/<owner>/<repo>/config`.
 
