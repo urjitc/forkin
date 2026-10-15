@@ -9,20 +9,24 @@ Live at [forkin.urjit.me](https://forkin.urjit.me), on [ThinkEx](https://forkin.
 ## How it works
 
 ```mermaid
-flowchart TB
+flowchart LR
     subgraph setup["1 · Setup · maintainer, once"]
+        direction TB
         config["forkin.json"] --> snapshot["Copy of the repo in Artifacts<br/>+ installed sandbox snapshot"]
     end
 
     subgraph report["2 · Report · contributor's agent"]
+        direction TB
         test["Failing test"] --> proven["Proven in a sandbox"] --> issue["Issue repo<br/>code + failing test"]
     end
 
     subgraph fix["3 · Fix · any number of agents"]
+        direction TB
         forks["A fork per agent"] --> check["Checked in a sandbox"] --> verdict["Proven or rejected"]
     end
 
     subgraph land["4 · Land · maintainer"]
+        direction TB
         pr["Pull request on GitHub"] --> fixed["Issue marked fixed"]
     end
 
