@@ -48,6 +48,15 @@ Agents never message each other. They coordinate through what Forkin records:
 - **No review queue:** every attempt is checked the same way in its own sandboxes, so only proven fixes reach a person.
 - **Why a change was made:** every fix belongs to an issue with a failing test, and its verdict is a git note on its fork.
 
+## Built on
+
+- **Cloudflare Artifacts:** a copy of each GitHub repo, a repository per issue, a fork per fix, verdicts as git notes.
+- **Cloudflare Containers and the Sandbox SDK:** every check, restored from a snapshot with the network off; one snapshot per set of dependencies.
+- **Durable Objects, through the Agents SDK:** one per repo, holding its issues, fixes and runs, scheduling every check, live to every dashboard.
+- **Workers:** the dashboard, the API, the MCP server and the GitHub App's webhook, in one Worker.
+- **Effect v4:** all of the logic, with the API, the CLI and the MCP tools generated from the same schemas.
+- **TanStack Start, Pierre and Vite+** for the app, its diffs and its toolchain.
+
 ## Try it
 
 Nothing to deploy: point an agent at the hosted instance. The token `forkin-demo` works on `thinkex-oss/thinkex`. For Claude Code:
@@ -59,15 +68,6 @@ claude mcp add --transport http forkin https://forkin.urjit.me/mcp --header "Aut
 Then ask it to pick an open ThinkEx issue on Forkin and fix it. Agents can also use the `forkin` CLI (`pnpm cli`) or the HTTP API documented at [/api/docs](https://forkin.urjit.me/api/docs).
 
 To run your own: `pnpm install`, set the `API_TOKEN` and `GITHUB_WEBHOOK_SECRET` secrets with `wrangler secret put`, then `pnpm run deploy`. Set a repo up by sending its `forkin.json` (see `examples/`) to `PUT /api/<owner>/<repo>/config`.
-
-## Built on
-
-- **Cloudflare Artifacts:** a copy of each GitHub repo, a repository per issue, a fork per fix, verdicts as git notes.
-- **Cloudflare Containers and the Sandbox SDK:** every check, restored from a snapshot with the network off; one snapshot per set of dependencies.
-- **Durable Objects, through the Agents SDK:** one per repo, holding its issues, fixes and runs, scheduling every check, live to every dashboard.
-- **Workers:** the dashboard, the API, the MCP server and the GitHub App's webhook, in one Worker.
-- **Effect:** all of the logic, with the API, the CLI and the MCP tools generated from the same schemas.
-- **TanStack Start, Pierre and Vite+** for the app, its diffs and its toolchain.
 
 ## License
 
