@@ -1,4 +1,4 @@
-<p align="center"><img src="public/media/forkin-mark.svg" alt="" width="72"></p>
+<p align="center"><img src="public/media/favicon.svg" alt="" width="80"></p>
 
 <h1 align="center">Forkin</h1>
 
