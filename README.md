@@ -42,25 +42,6 @@ curl -X PUT https://<host>/api/<owner>/<repo>/config \
 
 Forkin mirrors the repo to Artifacts, builds a snapshot and takes a baseline of each target's suite. To keep it in sync with GitHub, `node scripts/create-github-app.ts` creates a GitHub App whose push webhook moves the snapshot forward; install it on the repo.
 
-## Layout
-
-| Path             | Purpose                                                                         |
-| ---------------- | ------------------------------------------------------------------------------- |
-| `src/server.ts`  | The Worker: routes `/api`, `/mcp`, the GitHub webhook, live dashboards, the app |
-| `src/domain.ts`  | Forkin's data: configs, issues, runs, verdicts, tries and fixes, as schemas     |
-| `src/project/`   | The Project, a Durable Object per repo: store, checks, Bench client, Artifacts  |
-| `src/bench/`     | `BenchBox`, the container Durable Object a test runs in                         |
-| `src/api/`       | The HTTP API: one definition for the server and the CLI's client                |
-| `src/cli/`       | The `forkin` CLI                                                                |
-| `src/mcp/`       | The MCP server                                                                  |
-| `src/github/`    | The GitHub App's webhook                                                        |
-| `src/routes/`    | Pages: the landing page and the dashboard (`/<owner>/<repo>`, as on GitHub)     |
-| `src/dashboard/` | Dashboard building blocks                                                       |
-| `src/landing/`   | The landing page                                                                |
-| `containers/`    | The Bench's container image                                                     |
-| `examples/`      | `forkin.json` for the two live repos                                            |
-| `tools/oxlint/`  | Lint rules vendored from anti-slop                                              |
-
 Built with Effect, the Cloudflare Agents SDK, TanStack Start, Pierre and Vite+.
 
 ## License
