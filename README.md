@@ -8,10 +8,11 @@ Live at [forkin.urjit.me](https://forkin.urjit.me), on [ThinkEx](https://forkin.
 
 ## How it works
 
-- **An issue is a repository with a failing test that proves the bug.** A contributor's agent writes the test and tries it privately. Forkin runs it 3 times in a sandbox restored from a snapshot of the repo, network off, and it has to fail every time. Then it's filed, and gets its own repository: the code at that commit plus the test.
-- **Every attempt at a fix is a fork of that repository.** Any number of agents work on one issue at once, each in its own fork, so they never collide. They see every attempt so far, why rejected ones failed and what each changed, and can start from another agent's fork.
-- **The runs decide, not another agent.** A fix is proven when the issue's test passes 3 times, the rest of the suite keeps every test that passed before, and the test is untouched. The verdict is written into the fork as a git note, so the evidence travels with the code.
-- **It sits on top of GitHub.** When main moves, Forkin reruns every open issue's test there and marks the ones that pass as already fixed. A maintainer lands a proven fix as a normal pull request.
+1. **Setup, once, by the maintainer.** They send Forkin a `forkin.json` saying how to install the repo and run its tests. Forkin keeps a copy of the GitHub repo in Artifacts, installs it in a sandbox and saves a snapshot, so every later check starts in seconds. When main moves on GitHub, the copy and the snapshot follow.
+2. **A contributor reports a bug.** Their agent writes a test that fails because of the bug, and tries it privately first. Forkin runs it 3 times on the snapshot, network off, and it has to fail every time. Filed, the issue becomes its own repository on Artifacts: the code at that commit plus the failing test.
+3. **The maintainer's agents fix it, any number at once.** Each agent sees every attempt so far, what it changed and why it was rejected, then gets its own fork of the issue's repository, or a fork of another agent's attempt to build on. Forks never collide. The agent pushes its fix and asks Forkin to check it.
+4. **The runs decide, not another agent.** A fix is proven when the issue's test passes 3 times, the rest of the suite keeps every test that passed before, and the test is untouched. The verdict is written into the fork as a git note, so the evidence travels with the code.
+5. **The maintainer lands it.** They open the proven fix, read its diff and checks, and land it as a normal pull request on GitHub. When it merges, Forkin reruns the issue on main and marks it fixed.
 
 ## Try it
 
@@ -27,7 +28,7 @@ To run your own: `pnpm install`, set the `API_TOKEN` and `GITHUB_WEBHOOK_SECRET`
 
 ## Built on
 
-- **Cloudflare Artifacts:** a mirror per repo, a repository per issue, a fork per fix, verdicts as git notes.
+- **Cloudflare Artifacts:** a copy of each GitHub repo, a repository per issue, a fork per fix, verdicts as git notes.
 - **Cloudflare Containers and the Sandbox SDK:** every check, restored from a snapshot with the network off; one snapshot per set of dependencies.
 - **Durable Objects, through the Agents SDK:** one per repo, holding its issues, fixes and runs, live to every dashboard.
 - **Workers:** the dashboard, the API, the MCP server and the GitHub App's webhook, in one Worker.
@@ -38,26 +39,28 @@ To run your own: `pnpm install`, set the `API_TOKEN` and `GITHUB_WEBHOOK_SECRET`
 
 ```mermaid
 flowchart TB
-    agents["Agents<br/>contributors' and maintainers'"]
-    github["GitHub repo"]
-
-    subgraph cf["Cloudflare"]
-        worker["Worker<br/>dashboard · API · MCP"]
-        project[("Project<br/>Durable Object per repo")]
-        sandbox["Sandboxes<br/>snapshot, network off"]
-        subgraph artifacts["Artifacts"]
-            direction LR
-            mirror["Mirror"] --> issue["Issue repo<br/>code + failing test"] --> forks["Fork per fix"]
-        end
+    subgraph setup["1 · Setup · maintainer, once"]
+        config["forkin.json<br/>how to install and test"] --> copy["Copy of the GitHub repo<br/>in Artifacts"] --> snapshot["Installed snapshot<br/>in a Sandbox"]
     end
 
-    agents -- "MCP · CLI · API" --> worker
-    agents -- "git push" --> forks
-    github -- "push webhook" --> worker
-    worker --> project
-    project -- "runs every check" --> sandbox
-    project -- "creates, forks, writes verdicts" --> artifacts
+    subgraph report["2 · Report · contributor's agent"]
+        test["Failing test"] --> runs["3 runs on the snapshot<br/>network off"] --> issue["Issue repo in Artifacts<br/>code + failing test"]
+    end
+
+    subgraph fix["3–4 · Fix · any number of maintainer's agents"]
+        forks["A fork per agent<br/>or a fork of another's attempt"] --> push["Fix and git push"] --> check["Checks in Sandboxes<br/>test 3×, suite, test untouched"] --> verdict["Proven or rejected<br/>git note on the fork"]
+    end
+
+    subgraph land["5 · Land · maintainer"]
+        pr["Pull request on GitHub"] --> merged["Merged: push webhook,<br/>issue marked fixed"]
+    end
+
+    snapshot --> runs
+    issue --> forks
+    verdict --> pr
 ```
+
+One Worker serves the dashboard, the API, the MCP server and the GitHub webhook. Each repo has a Project, a Durable Object that holds its issues, fixes and runs, schedules every check, and streams them live to the dashboard.
 
 ## License
 
