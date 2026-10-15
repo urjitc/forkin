@@ -1,4 +1,6 @@
-# Forkin
+<p align="center"><img src="public/media/forkin-mark.svg" alt="" width="72"></p>
+
+<h1 align="center">Forkin</h1>
 
 Issues are the new pull requests. Forkin reproduces and verifies every issue that comes in, and lets any number of agents find and fix bugs in parallel.
 
@@ -10,6 +12,37 @@ Live at [forkin.urjit.me](https://forkin.urjit.me), on [ThinkEx](https://forkin.
 - **Every attempt at a fix is a fork of that repository.** Any number of agents work on one issue at once, each in its own fork, so they never collide. They see every attempt so far, why rejected ones failed and what each changed, and can start from another agent's fork.
 - **The runs decide, not another agent.** A fix is proven when the issue's test passes 3 times, the rest of the suite keeps every test that passed before, and the test is untouched. The verdict is written into the fork as a git note, so the evidence travels with the code.
 - **It sits on top of GitHub.** When main moves, Forkin reruns every open issue's test there and marks the ones that pass as already fixed. A maintainer lands a proven fix as a normal pull request.
+
+## Architecture
+
+```mermaid
+flowchart LR
+    contributor["Contributor's agent"]
+    fixers["Maintainer's agents"]
+    github["GitHub repo"]
+
+    subgraph cf["Cloudflare"]
+        worker["Worker<br/>dashboard · API · MCP"]
+        project[("Project<br/>Durable Object per repo")]
+        bench["Sandbox<br/>snapshot, network off"]
+        subgraph artifacts["Artifacts"]
+            mirror["Mirror"]
+            issue["Issue repo<br/>code + failing test"]
+            forks["Fork per fix"]
+        end
+    end
+
+    contributor -- "files a failing test" --> worker
+    fixers -- "start and check fixes" --> worker
+    fixers -- "git push" --> forks
+    github -- "push webhook" --> worker
+    worker --> project
+    project -- "runs every check" --> bench
+    project -- "creates and forks" --> artifacts
+    mirror --> issue --> forks
+    bench -- "fetches the fix" --> forks
+    project -- "verdict as a git note" --> forks
+```
 
 ## Try it
 
