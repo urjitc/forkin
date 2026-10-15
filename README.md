@@ -30,9 +30,7 @@ flowchart LR
         pr["Pull request on GitHub"] --> fixed["Issue marked fixed"]
     end
 
-    snapshot --> proven
-    issue --> forks
-    verdict --> pr
+    setup --> report --> fix --> land
 ```
 
 1. **Setup.** The maintainer sends a `forkin.json` saying how to install and test the repo. Forkin keeps a copy in Artifacts and a ready-to-run snapshot that follows main.
