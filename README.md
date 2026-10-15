@@ -16,32 +16,26 @@ Live at [forkin.urjit.me](https://forkin.urjit.me), on [ThinkEx](https://forkin.
 ## Architecture
 
 ```mermaid
-flowchart LR
-    contributor["Contributor's agent"]
-    fixers["Maintainer's agents"]
+flowchart TB
+    agents["Agents<br/>contributors' and maintainers'"]
     github["GitHub repo"]
 
     subgraph cf["Cloudflare"]
         worker["Worker<br/>dashboard · API · MCP"]
         project[("Project<br/>Durable Object per repo")]
-        bench["Sandbox<br/>snapshot, network off"]
+        sandbox["Sandboxes<br/>snapshot, network off"]
         subgraph artifacts["Artifacts"]
-            mirror["Mirror"]
-            issue["Issue repo<br/>code + failing test"]
-            forks["Fork per fix"]
+            direction LR
+            mirror["Mirror"] --> issue["Issue repo<br/>code + failing test"] --> forks["Fork per fix"]
         end
     end
 
-    contributor -- "files a failing test" --> worker
-    fixers -- "start and check fixes" --> worker
-    fixers -- "git push" --> forks
+    agents -- "MCP · CLI · API" --> worker
+    agents -- "git push" --> forks
     github -- "push webhook" --> worker
     worker --> project
-    project -- "runs every check" --> bench
-    project -- "creates and forks" --> artifacts
-    mirror --> issue --> forks
-    bench -- "fetches the fix" --> forks
-    project -- "verdict as a git note" --> forks
+    project -- "runs every check" --> sandbox
+    project -- "creates, forks, writes verdicts" --> artifacts
 ```
 
 ## Try it
