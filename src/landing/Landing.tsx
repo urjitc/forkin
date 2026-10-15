@@ -4,9 +4,7 @@ import { useEffect, type ReactNode } from "react";
 import { Frame, Logo, Mark, ThemeButtons, Wordmark } from "#/components/brand";
 import { Button } from "#/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "#/components/ui/card";
-import type { loadLiveRepos } from "#/dashboard/data";
 import { liveRepos } from "#/dashboard/live-repos";
-import { ago } from "#/dashboard/ui";
 import { cn } from "#/lib/utils";
 import { Flow } from "./Flow";
 
@@ -270,8 +268,6 @@ function Source({ href }: { href: string }) {
   );
 }
 
-type LiveStats = Awaited<ReturnType<typeof loadLiveRepos>>;
-
 /** Cloudflare's four questions about many agents on one codebase, and how Forkin answers each. */
 const coordination = [
   {
@@ -363,55 +359,37 @@ function ForkFan() {
   );
 }
 
-/** The real repos Forkin runs on, with their live counts, linking to their dashboards. */
-function LiveRepos({ live }: { live: LiveStats }) {
+/** The real repos Forkin runs on, linking to their dashboards. */
+function LiveRepos() {
   return (
     <div className="grid gap-3 sm:grid-cols-2">
-      {liveRepos.map((repo) => {
-        const stats = live.find((s) => s.owner === repo.owner && s.repo === repo.repo);
-
-        return (
-          <a
-            key={`${repo.owner}/${repo.repo}`}
-            href={`/${repo.owner}/${repo.repo}`}
-            className="reveal block no-underline hover:no-underline"
-          >
-            <Card className="h-full transition-colors hover:ring-foreground/30">
-              <CardHeader className="flex flex-row items-center gap-3">
-                <img src={repo.avatar} alt="" className="size-8 rounded-md" />
-                <div>
-                  <CardTitle>{repo.name}</CardTitle>
-                  <div className="font-mono text-[0.8125rem] text-muted-foreground">
-                    {repo.owner}/{repo.repo}
-                  </div>
+      {liveRepos.map((repo) => (
+        <a
+          key={`${repo.owner}/${repo.repo}`}
+          href={`/${repo.owner}/${repo.repo}`}
+          className="reveal block no-underline hover:no-underline"
+        >
+          <Card className="h-full transition-colors hover:ring-foreground/30">
+            <CardHeader className="flex flex-row items-center gap-3">
+              <img src={repo.avatar} alt="" className="size-8 rounded-md" />
+              <div>
+                <CardTitle>{repo.name}</CardTitle>
+                <div className="font-mono text-[0.8125rem] text-muted-foreground">
+                  {repo.owner}/{repo.repo}
                 </div>
-              </CardHeader>
-              <CardContent className="flex flex-col gap-3 text-[0.9375rem] leading-relaxed">
-                <p className="text-muted-foreground">{repo.about}</p>
-                {stats && (
-                  <p className="text-[0.875rem]">
-                    <b className="font-medium">{stats.reproduced}</b> reproduced ·{" "}
-                    <b className="font-medium">{stats.alreadyFixed}</b> already fixed ·{" "}
-                    <b className="font-medium">{stats.provenFixes}</b> proven{" "}
-                    {stats.provenFixes === 1 ? "fix" : "fixes"}
-                    {stats.updatedAt && (
-                      <span className="text-muted-foreground">
-                        {" "}
-                        · updated {ago(stats.updatedAt)}
-                      </span>
-                    )}
-                  </p>
-                )}
-              </CardContent>
-            </Card>
-          </a>
-        );
-      })}
+              </div>
+            </CardHeader>
+            <CardContent className="text-[0.9375rem] leading-relaxed text-muted-foreground">
+              <p>{repo.about}</p>
+            </CardContent>
+          </Card>
+        </a>
+      ))}
     </div>
   );
 }
 
-export function Landing({ live }: { live: LiveStats }) {
+export function Landing() {
   useActiveSection();
   useReveal();
 
@@ -603,7 +581,7 @@ export function Landing({ live }: { live: LiveStats }) {
           <p className="reveal mb-6 text-muted-foreground">
             Forkin runs on two real repositories. Every issue there is a real bug with a real test.
           </p>
-          <LiveRepos live={live} />
+          <LiveRepos />
         </Section>
 
         <Section id="agents" title="Bring your agents. Runs on Cloudflare.">

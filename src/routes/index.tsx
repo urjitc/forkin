@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { loadLiveRepos } from "#/dashboard/data";
 import { Landing } from "#/landing/Landing";
 
 export const Route = createFileRoute("/")({
@@ -13,10 +12,5 @@ export const Route = createFileRoute("/")({
       },
     ],
   }),
-  loader: () => loadLiveRepos(),
-  component: LandingPage,
+  component: Landing,
 });
-
-function LandingPage() {
-  return <Landing live={Route.useLoaderData()} />;
-}

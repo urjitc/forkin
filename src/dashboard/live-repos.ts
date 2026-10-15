@@ -4,14 +4,15 @@ export const liveRepos = [
     owner: "thinkex-oss",
     repo: "thinkex",
     name: "ThinkEx",
-    about: "Urjit's open source app. The whole loop, with the GitHub App installed.",
+    about: "An open source study app. Real open bugs, and past ones confirmed fixed on main.",
     avatar: "https://github.com/ThinkEx-OSS.png?size=64",
   },
   {
     owner: "cloudflare",
     repo: "agents",
     name: "Cloudflare Agents SDK",
-    about: "A large real repo, read-only. Urjit's own past bugs, reproduced.",
+    about:
+      "Cloudflare's Agents SDK. Real reported bugs, each reproduced at the commit it was reported against.",
     avatar: "https://github.com/cloudflare.png?size=64",
   },
 ] as const;

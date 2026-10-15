@@ -2,17 +2,8 @@ import { createServerFn } from "@tanstack/react-start";
 import { getAgentByName } from "agents";
 import { env } from "cloudflare:workers";
 import { Schema } from "effect";
-import {
-  ActivityEvent,
-  Environment,
-  Fix,
-  Issue,
-  ProjectState,
-  Verdict,
-  projectName,
-} from "#/domain";
+import { ActivityEvent, Environment, Fix, Issue, ProjectState, projectName } from "#/domain";
 import { preloadPatchFiles } from "./files";
-import { liveRepos } from "./live-repos";
 
 // Server functions the dashboard loads from; after the first load it stays live over a WebSocket.
 
@@ -33,25 +24,6 @@ const plainEnvironment = Schema.encodeSync(Schema.NullOr(Environment));
 
 const project = (owner: string, repo: string) =>
   getAgentByName(env.Project, projectName(owner, repo));
-
-/** Each live repo's issue counts and latest activity, for the landing page. */
-export const loadLiveRepos = createServerFn({ method: "GET" }).handler(() =>
-  Promise.all(
-    liveRepos.map(async ({ owner, repo }) => {
-      const { issues, activity } = await (await project(owner, repo)).snapshot();
-
-      return {
-        owner,
-        repo,
-        issues: issues.length,
-        reproduced: issues.filter((issue) => Verdict.guards.Reproduced(issue.verdict)).length,
-        alreadyFixed: issues.filter((issue) => Verdict.guards.AlreadyFixed(issue.verdict)).length,
-        provenFixes: issues.reduce((sum, issue) => sum + (issue.fixes?.proven ?? 0), 0),
-        updatedAt: activity[0]?.at ?? null,
-      };
-    }),
-  ),
-);
 
 export const loadProject = createServerFn({ method: "GET" })
   .validator(RepoRef)
