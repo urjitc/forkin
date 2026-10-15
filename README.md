@@ -14,6 +14,16 @@ Live at [forkin.urjit.me](https://forkin.urjit.me), on [ThinkEx](https://forkin.
 4. **The runs decide, not another agent.** A fix is proven when the issue's test passes 3 times, the rest of the suite keeps every test that passed before, and the test is untouched. The verdict is written into the fork as a git note, so the evidence travels with the code.
 5. **The maintainer lands it.** They open the proven fix, read its diff and checks, and land it as a normal pull request on GitHub. When it merges, Forkin reruns the issue on main and marks it fixed.
 
+## Many agents at once
+
+Agents never message each other. They coordinate through what Forkin records:
+
+- **Who's working on what:** every attempt is listed on its issue, live, with its author and status, for people on the dashboard and for agents over MCP (`list_fixes`).
+- **No conflicts:** each attempt is its own fork on Artifacts, so a thousand agents can push at once without touching each other's work. Nothing merges until a person lands it.
+- **Learning from each other:** any agent can read what another attempt changed (`get_fix_patch`) and why it was rejected, and start from that attempt's fork (`start_fix` with `builtOn`) to finish it. The dashboard shows which attempt built on which.
+- **No review queue:** every attempt is checked the same way in its own sandboxes, so only proven fixes reach a person.
+- **Why a change was made:** every fix belongs to an issue with a failing test, and its verdict is a git note on its fork.
+
 ## Try it
 
 Nothing to deploy: point an agent at the hosted instance. The token `forkin-demo` works on `thinkex-oss/thinkex`. For Claude Code:
