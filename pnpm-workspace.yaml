@@ -1,0 +1,62 @@
+catalog:
+  vite: npm:@voidzero-dev/vite-plus-core@1.2.0
+  vite-plus: 1.2.0
+minimumReleaseAgeExclude:
+  - "@cloudflare/vite-plugin@1.64.0"
+  - "@rolldown/binding-android-arm-eabi@1.2.14"
+  - "@rolldown/binding-android-arm64@1.2.14"
+  - "@rolldown/binding-darwin-arm64@1.2.14"
+  - "@rolldown/binding-darwin-x64@1.2.14"
+  - "@rolldown/binding-freebsd-x64@1.2.14"
+  - "@rolldown/binding-linux-arm-gnueabihf@1.2.14"
+  - "@rolldown/binding-linux-arm64-gnu@1.2.14"
+  - "@rolldown/binding-linux-arm64-musl@1.2.14"
+  - "@rolldown/binding-linux-ppc64-gnu@1.2.14"
+  - "@rolldown/binding-linux-s390x-gnu@1.2.14"
+  - "@rolldown/binding-linux-x64-gnu@1.2.14"
+  - "@rolldown/binding-linux-x64-musl@1.2.14"
+  - "@rolldown/binding-openharmony-arm64@1.2.14"
+  - "@rolldown/binding-win32-arm64-msvc@1.2.14"
+  - "@rolldown/binding-win32-x64-msvc@1.2.14"
+  - "@tanstack/react-start-rsc@0.1.63"
+  - "@tanstack/react-start-server@1.167.50"
+  - "@tanstack/react-start@1.169.2"
+  - "@tanstack/router-generator@1.167.44"
+  - "@tanstack/router-plugin@1.168.46"
+  - "@tanstack/router-utils@1.162.4"
+  - "@tanstack/start-plugin-core@1.171.53"
+  - "@tanstack/start-server-core@1.169.43"
+  - "@voidzero-dev/vite-plus-core@1.2.0"
+  - "@voidzero-dev/vite-plus-darwin-arm64@1.2.0"
+  - "@voidzero-dev/vite-plus-darwin-x64@1.2.0"
+  - "@voidzero-dev/vite-plus-linux-arm64-gnu@1.2.0"
+  - "@voidzero-dev/vite-plus-linux-arm64-musl@1.2.0"
+  - "@voidzero-dev/vite-plus-linux-x64-gnu@1.2.0"
+  - "@voidzero-dev/vite-plus-linux-x64-musl@1.2.0"
+  - "@voidzero-dev/vite-plus-win32-arm64-msvc@1.2.0"
+  - "@voidzero-dev/vite-plus-win32-x64-msvc@1.2.0"
+  - electron-to-chromium@1.5.456
+  - miniflare@5.20261012.0-beta
+  - react-dom@19.3.1
+  - react@19.3.1
+  - rolldown@1.2.14
+  - vite-plus@1.2.0
+  - wrangler@4.151.0
+  - "@effect/tsgo-darwin-arm64@0.53.0"
+  - "@effect/tsgo-darwin-x64@0.53.0"
+  - "@effect/tsgo-linux-arm64@0.53.0"
+  - "@effect/tsgo-linux-arm@0.53.0"
+  - "@effect/tsgo-linux-x64@0.53.0"
+  - "@effect/tsgo-win32-arm64@0.53.0"
+  - "@effect/tsgo-win32-x64@0.53.0"
+  - "@effect/tsgo@0.53.0"
+overrides:
+  vite@*: "catalog:"
+peerDependencyRules:
+  allowAny:
+    - vite
+  allowedVersions:
+    vite: "*"
+allowBuilds:
+  esbuild: true
+  workerd: true

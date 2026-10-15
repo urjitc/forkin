@@ -1,0 +1,31 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "forkin",
+  "account_id": "676650ed1ca37ffdeba997fb2a7fa24a",
+  "compatibility_date": "2026-10-14",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "src/server.ts",
+  "routes": [{ "pattern": "forkin.urjit.me", "custom_domain": true }],
+  "durable_objects": {
+    "bindings": [
+      { "name": "Project", "class_name": "Project" },
+      { "name": "Bench", "class_name": "BenchBox" },
+    ],
+  },
+  "migrations": [
+    { "tag": "v1", "new_sqlite_classes": ["Project"] },
+    { "tag": "v2", "new_sqlite_classes": ["BenchBox"] },
+  ],
+  // Mirrors, a repo per issue, and evidence as git notes.
+  "artifacts": [{ "binding": "ARTIFACTS", "namespace": "forkin" }],
+  "containers": [
+    {
+      "class_name": "BenchBox",
+      "scheduling_policy": "durable_object",
+      "images": { "box": { "dockerfile": "./containers/bench/Dockerfile" } },
+    },
+  ],
+  "secrets": { "required": ["API_TOKEN", "GITHUB_WEBHOOK_SECRET"] },
+  "observability": { "enabled": true },
+  "upload_source_maps": true,
+}

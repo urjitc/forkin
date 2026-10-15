@@ -1,0 +1,93 @@
+{
+  "numTotalTests": 20,
+  "numPassedTests": 20,
+  "numFailedTests": 0,
+  "testResults": [
+    {
+      "status": "passed",
+      "message": "",
+      "assertionResults": [
+        {
+          "status": "passed",
+          "fullName": "Spike: sub-agent routing via facet Fetcher uses a canonical Agent path for a nested WebSocket"
+        },
+        {
+          "status": "passed",
+          "fullName": "Spike: sub-agent routing via facet Fetcher connects a WebSocket to a leaf facet 2 levels below the root"
+        },
+        {
+          "status": "passed",
+          "fullName": "Spike: sub-agent routing via facet Fetcher connects a WebSocket to a leaf facet 3 levels below the root"
+        },
+        {
+          "status": "passed",
+          "fullName": "Spike: sub-agent routing via facet Fetcher a facet's identity frame carries its logical name, not the routed DO name"
+        },
+        {
+          "status": "passed",
+          "fullName": "Spike: sub-agent routing via facet Fetcher establishes a WebSocket through the parent \u2192 facet chain"
+        },
+        {
+          "status": "passed",
+          "fullName": "Spike: sub-agent routing via facet Fetcher this.broadcast(...) inside a facet reaches the facet's own WS clients"
+        },
+        {
+          "status": "passed",
+          "fullName": "Spike: sub-agent routing via facet Fetcher this.broadcast(...) from child RPC reaches child-targeted WS clients"
+        },
+        {
+          "status": "passed",
+          "fullName": "Spike: sub-agent routing via facet Fetcher parent broadcasts do not leak onto child-targeted sockets"
+        },
+        {
+          "status": "passed",
+          "fullName": "Spike: sub-agent routing via facet Fetcher exposes child-targeted sockets through child getConnection APIs with child tags"
+        },
+        {
+          "status": "passed",
+          "fullName": "Spike: sub-agent routing via facet Fetcher rehydrates child connection APIs from the root-owned WebSocket state"
+        },
+        {
+          "status": "passed",
+          "fullName": "Spike: sub-agent routing via facet Fetcher preserves child readonly and no-protocol flags on later forwarded messages"
+        },
+        {
+          "status": "passed",
+          "fullName": "Spike: sub-agent routing via facet Fetcher keeps the same child connection object across forwarded messages"
+        },
+        {
+          "status": "passed",
+          "fullName": "Spike: sub-agent routing via facet Fetcher routes subsequent frames to the child without re-running the parent gate"
+        },
+        {
+          "status": "passed",
+          "fullName": "Spike: sub-agent routing via facet Fetcher forwards HTTP requests through the same chain"
+        },
+        {
+          "status": "passed",
+          "fullName": "Spike: sub-agent routing via facet Fetcher isolates per-child state across different child names"
+        },
+        {
+          "status": "passed",
+          "fullName": "Spike: sub-agent routing via facet Fetcher rejects an unknown child class with 404"
+        },
+        {
+          "status": "passed",
+          "fullName": "Spike: sub-agent routing via facet Fetcher getSubAgentByName \u2014 per-call bridge via Agent base typed RPC method calls round-trip via the parent bridge"
+        },
+        {
+          "status": "passed",
+          "fullName": "Spike: sub-agent routing via facet Fetcher getSubAgentByName \u2014 per-call bridge via Agent base observes state mutated via the WS path"
+        },
+        {
+          "status": "passed",
+          "fullName": "Spike: sub-agent routing via facet Fetcher getSubAgentByName \u2014 per-call bridge via Agent base survives multiple independent calls (no reference lifetime issue)"
+        },
+        {
+          "status": "passed",
+          "fullName": "Spike: sub-agent routing via facet Fetcher getSubAgentByName \u2014 per-call bridge via Agent base .fetch() is rejected with a helpful error pointing at routeSubAgentRequest"
+        }
+      ]
+    }
+  ]
+}

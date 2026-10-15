@@ -1,0 +1,122 @@
+/* Figure 1: a batch of issues, drawn as SVG in a wide and a narrow layout. SVG text and strokes are styled here rather than in utilities. */
+.flow {
+  padding: 1.25rem;
+}
+.flow svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.flow .sm {
+  display: none;
+}
+@media (max-width: 640px) {
+  .flow .lg {
+    display: none;
+  }
+  .flow .sm {
+    display: block;
+  }
+}
+.flow .tile {
+  fill: var(--muted);
+  stroke: var(--border);
+  transition:
+    stroke 300ms ease,
+    fill 300ms ease;
+}
+.flow .fixes .tile {
+  stroke: var(--merged);
+  fill: color-mix(in srgb, var(--merged) 10%, transparent);
+}
+.flow .fixes .merge {
+  fill: var(--merged);
+}
+.flow .box {
+  fill: color-mix(in srgb, var(--primary) 3%, transparent);
+  stroke: color-mix(in srgb, var(--primary) 45%, transparent);
+}
+.flow .box-name {
+  fill: var(--brand-ink);
+  font: 600 15px var(--font-sans);
+}
+.flow .title {
+  fill: var(--foreground);
+  font: 500 14px var(--font-sans);
+}
+.flow .sub {
+  fill: var(--muted-foreground);
+  font: 12.5px var(--font-sans);
+  transition: fill 300ms ease;
+}
+.flow .hint {
+  fill: color-mix(in oklch, var(--muted-foreground) 70%, transparent);
+  font: 12px var(--font-sans);
+}
+.flow .name {
+  fill: var(--foreground);
+  font: 13px var(--font-mono);
+  transition:
+    fill 300ms ease,
+    opacity 300ms ease;
+}
+.flow .status {
+  fill: color-mix(in oklch, var(--muted-foreground) 70%, transparent);
+  font: 12.5px var(--font-sans);
+  transition: fill 300ms ease;
+}
+.flow .row .tile {
+  fill: var(--card);
+}
+.flow .status .ok,
+.flow .done .sub {
+  fill: var(--add);
+}
+.flow .status .bad {
+  fill: var(--del);
+}
+.flow .status .gone {
+  fill: var(--brand-ink);
+}
+.flow .row.gone .name {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+.flow .wire {
+  fill: none;
+  stroke: color-mix(in oklch, var(--muted-foreground) 70%, transparent);
+  stroke-width: 1.25;
+  stroke-dasharray: 3 5;
+}
+.flow .comet {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 8 112;
+  stroke-dashoffset: 8;
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .flow .comet {
+    animation: comet 2700ms linear infinite;
+  }
+}
+@keyframes comet {
+  0% {
+    stroke-dashoffset: 8;
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.9;
+  }
+  30% {
+    stroke-dashoffset: -100;
+    opacity: 0;
+  }
+  100% {
+    stroke-dashoffset: -100;
+    opacity: 0;
+  }
+}

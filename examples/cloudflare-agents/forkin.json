@@ -1,0 +1,10 @@
+{
+  "install": "pnpm install --frozen-lockfile",
+  "build": "pnpm -r --filter './packages/*' run build",
+  "targets": {
+    "agents": {
+      "path": "packages/agents",
+      "test": "pnpm exec vitest --run -c src/tests/vitest.config.ts"
+    }
+  }
+}

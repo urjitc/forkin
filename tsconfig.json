@@ -1,0 +1,36 @@
+{
+  "$schema": "./node_modules/@effect/tsgo/schema.json",
+  "include": ["src", "scripts", "vite.config.ts", "vitest.config.ts", "worker-configuration.d.ts"],
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "types": ["node", "vite/client"],
+    "paths": {
+      "#/*": ["./src/*"]
+    },
+    "verbatimModuleSyntax": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "plugins": [
+      {
+        "name": "@effect/language-service",
+        "diagnosticSeverity": {
+          "schemaClassMissingBrand": "off",
+          "unstableApiUsage": "off"
+        }
+      }
+    ]
+  }
+}

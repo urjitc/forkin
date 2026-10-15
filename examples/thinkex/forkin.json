@@ -1,0 +1,13 @@
+{
+  "install": "pnpm install --frozen-lockfile",
+  "targets": {
+    "node": {
+      "path": ".",
+      "test": "CI=1 CLOUDFLARE_VITE_FORCE_LOCAL=true node_modules/.bin/vp test --run --project=node"
+    },
+    "workers": {
+      "path": ".",
+      "test": "CI=1 CLOUDFLARE_VITE_FORCE_LOCAL=true node_modules/.bin/vp test --run --project=workers"
+    }
+  }
+}
