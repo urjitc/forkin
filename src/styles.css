@@ -138,6 +138,10 @@
   body {
     @apply bg-background text-foreground;
   }
+  /* Selected text takes the brand yellow. */
+  ::selection {
+    @apply bg-primary text-primary-foreground;
+  }
   /* Buttons and links show a pointer; text links are underlined only while hovered. Button-styled links, row links and tabs opt out of the underline. */
   button:not(:disabled),
   [role="button"]:not(:disabled),
